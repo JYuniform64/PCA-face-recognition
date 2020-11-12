@@ -1,0 +1,5 @@
+- [ ] training/test set data auto save/load
+- [ ] timing
+- [ ] visualize result
+- [ ] store one run result
+- [ ] find the best args.
