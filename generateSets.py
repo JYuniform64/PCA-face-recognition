@@ -23,6 +23,8 @@ def generateSets(datasetFolder, dataFormat, trainingSetRatio):
         train.write(json.dumps(trainingSet, indent=4, sort_keys=True))
     with open(os.path.join('data', 'test_set.json'), 'w') as test:
         test.write(json.dumps(testSet, indent=4, sort_keys=True))
+    if os.path.exists('data/data.npz'):
+        os.remove('data/data.npz')
 
 
 if __name__ == '__main__':
