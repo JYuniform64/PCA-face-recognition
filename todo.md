@@ -1,5 +1,6 @@
-- [ ] training/test set data auto save/load
-- [ ] timing
+- [x] training/test set data auto save/load
+- [x] timing
 - [ ] visualize result
-- [ ] store one run result
-- [ ] find the best args.
+save overall information in performance.json
+- [x] store one run result
+- [x] find the best args

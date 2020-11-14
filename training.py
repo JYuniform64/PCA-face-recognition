@@ -177,15 +177,18 @@ if __name__ == '__main__':
     show_group_accuracy = False
     quiet = True
 
-    dimension_start = 1
+    dimension_start = 5
     dimension_end = 100
     dimension_gap = 5
-    neighbors_start = 1
+    neighbors_start = 5
     neighbors_end = 100
     neighbors_gap = 5
 
     performance = list()
+    loop_params = dict()
     best_acc = {"dimension": -1, "neighbors": -1, "accuracy": 0.0}
+    loop_params['dimension'] = [x for x in range(dimension_start, dimension_end, dimension_gap)]
+    loop_params['neighbors'] = [x for x in range(neighbors_start, neighbors_end, neighbors_gap)]
 
     for dimension in range(dimension_start, dimension_end, dimension_gap):
         for neighbor in range(neighbors_start, neighbors_end, neighbors_gap):
@@ -200,5 +203,4 @@ if __name__ == '__main__':
     print('best_acc:', best_acc)
 
     with open('data/performance.json', 'w') as performance_file:
-        performance_file.write(json.dumps(
-            performance, indent=4))
+        performance_file.write(json.dumps({"loop_params": loop_params, "performance": performance}, indent=4))
