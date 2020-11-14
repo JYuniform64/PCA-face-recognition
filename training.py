@@ -177,12 +177,12 @@ if __name__ == '__main__':
     show_group_accuracy = False
     quiet = True
 
-    dimension_start = 5
+    dimension_start = 1
     dimension_end = 100
-    dimension_gap = 5
-    neighbors_start = 5
-    neighbors_end = 100
-    neighbors_gap = 5
+    dimension_gap = 1
+    neighbors_start = 1
+    neighbors_end = 2
+    neighbors_gap = 1
 
     performance = list()
     loop_params = dict()

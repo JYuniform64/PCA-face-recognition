@@ -47,6 +47,10 @@ def heatmap(data, row_labels, col_labels, ax=None,
     ax.set_xticklabels(col_labels)
     ax.set_yticklabels(row_labels)
 
+    ax.set_xlabel('neighbors')
+    ax.set_ylabel('dimension')
+    ax.set_title('accuracy heatmap')
+
     # Let the horizontal axes labeling appear on top.
     ax.tick_params(top=True, bottom=False,
                    labeltop=True, labelbottom=False)
@@ -126,15 +130,41 @@ def annotate_heatmap(im, data=None, valfmt="{x:.2f}",
     return texts
 
 
-def show_heatmap(accuracy, col_name, row_name):
+def show_heatmap(accuracy, col_name, row_name, save=True):
     fig, ax = plt.subplots()
 
     im, cbar = heatmap(accuracy, col_name, row_name, ax=ax,
                        cmap="YlGn", cbarlabel="accuracy")
-    texts = annotate_heatmap(im, valfmt="{x:.2f}")
+    texts = annotate_heatmap(im, valfmt="")
 
     fig.tight_layout()
+
+    if save:
+        os.makedirs("images", exist_ok=True)
+        filename = "images/heatmap_d_" + \
+            str(col_name[0]) + "_" + str(col_name[-1]) + "_n_" + \
+            str(row_name[0]) + "_" + str(row_name[-1]) + ".png"
+        plt.savefig(filename)
+
     plt.show()
+
+
+def show_plot(accuracy, dimension, save=True):
+    fig, ax = plt.subplots()
+    ax.plot(dimension, accuracy)
+
+    ax.set(xlabel='dimension (neighbor=1)', ylabel='accuracy',
+           title='accuracy plot')
+    ax.grid()
+
+    if save:
+        os.makedirs("images", exist_ok=True)
+        filename = "images/plot_d_" + \
+            str(dimension[0]) + "_" + str(dimension[-1]) + ".png"
+        plt.savefig(filename)
+
+    plt.show()
+
 
 if __name__ == "__main__":
     # read results from performance.json
@@ -144,14 +174,13 @@ if __name__ == "__main__":
     performance = data["performance"]
     dimension = data["loop_params"]["dimension"]
     neighbors = data["loop_params"]["neighbors"]
-    
+
     acc = np.empty(len(dimension)*len(neighbors))
     for index, value in enumerate(performance):
         acc[index] = value['accuracy']
-    acc = acc.reshape((len(dimension),len(neighbors)))
-    col_name = ["d_"+str(x) for x in dimension]
-    row_name = ["n_"+str(x) for x in neighbors]
 
-    show_heatmap(acc, col_name, row_name)
-    
-    
+    if len(neighbors) == 1:
+        show_plot(acc, dimension)
+    else:
+        acc = acc.reshape((len(dimension), len(neighbors)))
+        show_heatmap(acc, dimension, neighbors)
