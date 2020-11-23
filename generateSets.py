@@ -13,8 +13,7 @@ def generateSets(datasetFolder, dataFormat, trainingSetRatio):
     testSet = dict()
     for folder in subFolder:
         tmp = [dataFile for dataFile in os.listdir(
-            folder) if dataFile.endswith(dataFormat)]
-        tmp.pop()
+            folder) if (dataFile.endswith(dataFormat) and dataFile[-5] != 't' and int(dataFile[13:16]) < 90)]
         random.shuffle(tmp)
         num_in_trainingset = int(len(tmp)*trainingSetRatio)
         trainingSet[folder] = tmp[0:num_in_trainingset]
